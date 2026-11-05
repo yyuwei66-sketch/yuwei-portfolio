@@ -22,7 +22,7 @@ My work explores computer vision, LLM-powered applications, and multimodal AI. I
 
 ## Interests
 
-Computer Vision · Embodied AI · Large Language Models · Multimodal AI · Intelligent Agents · Trustworthy AI
+World Model · Embodied AI · Large Language Models · Multimodal AI · Intelligent Agents · Trustworthy AI
 
 ## Education
 
