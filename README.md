@@ -1,28 +1,34 @@
-# Yuwei Yang — Portfolio
+# Yuwei Yang
 
-A static personal portfolio published with GitHub Pages.
+**Artificial Intelligence Undergraduate · Computer Vision · Multimodal AI · Intelligent Systems**
 
-## Site files
+[Portfolio](https://yyuwei66-sketch.github.io/yuwei-portfolio/) · [GitHub](https://github.com/yyuwei66-sketch) · [Email](mailto:yyuwei66@gmail.com)
 
-- `index.html` is the website entry point.
-- `public/` contains the profile image and résumé PDF.
+> Close to the light. Follow the light. Become the continued light.
 
-Keep `index.html` and `public/` at the repository root so the page can load its assets.
+## About
 
-## Publish with GitHub Pages
+I'm an Artificial Intelligence undergraduate at Xiamen University Malaysia. I enjoy turning ideas into useful systems, from research prototypes and data workflows to interactive software.
 
-This site is hosted from the `yyuwei66-sketch/yuwei-portfolio` repository.
+My work explores computer vision, LLM-powered applications, and multimodal AI. I'm especially interested in intelligent agents, embodied AI, world models, and trustworthy AI.
 
-1. Open **Settings → Pages**.
-2. Under **Build and deployment**, choose **Deploy from a branch**.
-3. Select the `main` branch and the `/(root)` folder, then click **Save**.
+## Selected Projects
 
-Choose `main` because that is the branch containing the uploaded site files. Choose `/(root)` because `index.html` is at the top level of the repository.
+- **[Membra-AI](https://github.com/yyuwei66-sketch/Membra-AI)** — A research collaboration building an evidence-grounded knowledge assistant for membrane and thin-film literature, using retrieval and semantic search across 2,701 question-answer and evidence pairs.
+- **[Maze Escape AI](https://github.com/yyuwei66-sketch/maze-escape-ai)** — A playable pursuit game in generated, wraparound mazes for exploring search and optimization strategies.
+- **[XMUM Freshman Chatbot](https://github.com/yyuwei66-sketch/xmum-freshman-chatbot)** — An FAQ assistant that combines intent rules, category prediction, and answer retrieval to help new students find information.
+- **[Interactive Systems Lab](https://github.com/yyuwei66-sketch/interactive-systems-lab)** — Browser games and a Three.js runner built around reusable interactions, game states, and visual feedback. [Try the live demo](https://yyuwei66-sketch.github.io/interactive-systems-lab/).
+- **[2026 Modeling Project](https://github.com/yyuwei66-sketch/CUMCM_2026)** — A collaborative modeling project with shared data, analysis notebooks, and report materials.
 
-After GitHub Pages finishes publishing, the site will be available at:
+## Interests
 
-<https://yyuwei66-sketch.github.io/yuwei-portfolio/>
+Computer Vision · Embodied AI · Large Language Models · Multimodal AI · Intelligent Agents · Trustworthy AI
 
-## Custom domain
+## Education
 
-After registering a domain, enter it under **Settings → Pages → Custom domain**, then configure the DNS records with your domain registrar.
+**Bachelor of Engineering in Artificial Intelligence**  
+Xiamen University Malaysia · 2025–2029 (expected)
+
+## Contact
+
+For research, project, or collaboration enquiries, reach me at [yyuwei66@gmail.com](mailto:yyuwei66@gmail.com), or find me on [GitHub](https://github.com/yyuwei66-sketch).
