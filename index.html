@@ -1,904 +1,255 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yuwei Yang - AI Undergraduate</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        * {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #f8fafc 0%, #f0f9ff 50%, #f8fafc 100%);
-        }
-        
-        .nav-blur {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 14px 26px -10px rgba(37, 99, 235, 0.14);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
-            transform: translateY(-1px);
-        }
-        
-        .abstract-pattern {
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(14, 165, 233, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.04) 0%, transparent 70%);
-        }
-        
-        .dot-pattern {
-            background-image: radial-gradient(rgba(37, 99, 235, 0.15) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        .gold-accent-line {
-            width: 44px;
-            height: 1px;
-            border-radius: 999px;
-            background: linear-gradient(90deg, rgba(245, 158, 11, 0.55), rgba(251, 191, 36, 0.12));
-        }
-
-        .signature-motto {
-            border-left: 1px solid rgba(245, 158, 11, 0.34);
-            background: linear-gradient(90deg, rgba(255, 251, 235, 0.42), rgba(255, 255, 255, 0));
-        }
-
-        .warm-dot {
-            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.12);
-        }
-
-        .footer-gold-accent {
-            background: linear-gradient(90deg, rgba(245, 158, 11, 0.8), rgba(37, 99, 235, 0.08));
-        }
-        
-        .hero-photo-card {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-photo-card::before {
-            content: '';
-            position: absolute;
-            top: -20%;
-            right: -20%;
-            width: 60%;
-            height: 60%;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(14, 165, 233, 0.1) 100%);
-            border-radius: 50%;
-            z-index: 0;
-        }
-        
-        .mobile-menu {
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-        }
-        
-        .mobile-menu.open {
-            transform: translateX(0);
-        }
-
-        .hero-portrait {
-            object-fit: cover;
-            object-position: center center;
-        }
-
-        .project-card {
-            min-height: 100%;
-        }
-
-        .project-thumb {
-            height: 156px;
-        }
-
-        .leaf-photo {
-            background:
-                linear-gradient(135deg, rgba(15, 23, 42, 0.12), rgba(255, 255, 255, 0.02)),
-                radial-gradient(ellipse at 35% 35%, rgba(236, 253, 245, 0.9) 0 7%, transparent 8%),
-                radial-gradient(ellipse at 70% 45%, rgba(251, 191, 36, 0.65) 0 4%, transparent 5%),
-                radial-gradient(ellipse at 52% 62%, rgba(153, 27, 27, 0.5) 0 3%, transparent 4%),
-                linear-gradient(135deg, #155e35 0%, #1f8a4c 42%, #83b85f 100%);
-        }
-
-        .leaf-scan-grid {
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 18px 18px;
-        }
-
-        .leaf-detection-box {
-            border: 1px solid rgba(16, 185, 129, 0.82);
-            box-shadow: 0 0 0 1px rgba(6, 78, 59, 0.25), inset 0 0 22px rgba(16, 185, 129, 0.12);
-        }
-
-        .leaf-photo::before,
-        .leaf-photo::after {
-            content: '';
-            position: absolute;
-            border-radius: 999px 16px 999px 16px;
-            transform: rotate(-26deg);
-            opacity: 0.95;
-        }
-
-        .leaf-photo::before {
-            width: 180px;
-            height: 88px;
-            left: 18px;
-            top: 20px;
-            background:
-                linear-gradient(100deg, transparent 48%, rgba(255, 255, 255, 0.45) 49%, transparent 51%),
-                radial-gradient(circle at 65% 45%, rgba(146, 64, 14, 0.55) 0 9%, transparent 10%),
-                radial-gradient(circle at 42% 60%, rgba(180, 83, 9, 0.45) 0 6%, transparent 7%),
-                linear-gradient(135deg, #9bd06f 0%, #3f9b45 58%, #176534 100%);
-        }
-
-        .leaf-photo::after {
-            width: 118px;
-            height: 58px;
-            right: 18px;
-            top: 32px;
-            background:
-                linear-gradient(100deg, transparent 48%, rgba(255, 255, 255, 0.4) 49%, transparent 51%),
-                radial-gradient(circle at 55% 42%, rgba(120, 53, 15, 0.55) 0 8%, transparent 9%),
-                linear-gradient(135deg, #b7df83 0%, #5faf4f 55%, #23743a 100%);
-        }
-
-        .project-action {
-            min-height: 38px;
-        }
-
-        @media (max-width: 767px) {
-            .project-thumb {
-                height: 170px;
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f2ed">
+  <meta name="description" content="Yuwei Yang — AI undergraduate exploring computer vision, multimodal systems, and intelligent agents.">
+  <title>Yuwei Yang — AI, ideas &amp; experiments</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
-<body class="gradient-bg min-h-screen">
-    <!-- Navbar -->
-    <nav class="sticky top-0 z-50 bg-white/80 nav-blur border-b border-slate-100/50">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <a href="#home" class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                        YY
-                    </div>
-                    <span class="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent hidden sm:block">
-                        Yuwei Yang
-                    </span>
-                </a>
-                
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#home" class="text-slate-700 hover:text-blue-600 font-medium transition-colors relative group">
-                        Home
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
-                    </a>
-                    <a href="#about" class="text-slate-700 hover:text-blue-600 font-medium transition-colors relative group">
-                        About
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
-                    </a>
-                    <a href="#projects" class="text-slate-700 hover:text-blue-600 font-medium transition-colors relative group">
-                        Projects
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
-                    </a>
-                    <a href="#skills" class="text-slate-700 hover:text-blue-600 font-medium transition-colors relative group">
-                        Skills
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
-                    </a>
-                    <a href="#education" class="text-slate-700 hover:text-blue-600 font-medium transition-colors relative group">
-                        Education
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
-                    </a>
-                    <a href="#achievements" class="text-slate-700 hover:text-blue-600 font-medium transition-colors relative group">
-                        Achievements
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
-                    </a>
-                    <a href="#contact" class="text-slate-700 hover:text-blue-600 font-medium transition-colors relative group">
-                        Contact
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all group-hover:w-full"></span>
-                    </a>
-                </div>
-                
-                <div class="flex items-center gap-4">
-                    <a href="public/YangYuwei_resume.pdf" download="Yuwei_Yang_Resume.pdf" class="hidden md:flex items-center gap-2 btn-primary text-white px-5 py-2.5 rounded-xl font-medium shadow-lg">
-                        <i class="fas fa-download"></i>
-                        Download Resume
-                    </a>
-                    
-                    <button id="mobileMenuBtn" class="md:hidden p-2 rounded-xl hover:bg-slate-100 transition-colors">
-                        <i class="fas fa-bars text-xl text-slate-700"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 p-6 md:hidden">
-            <div class="flex justify-between items-center mb-8">
-                <span class="font-bold text-xl text-slate-800">Menu</span>
-                <button id="closeMobileMenu" class="p-2 hover:bg-slate-100 rounded-xl transition-colors">
-                    <i class="fas fa-times text-xl text-slate-600"></i>
-                </button>
-            </div>
-            <div class="flex flex-col gap-4">
-                <a href="#home" class="text-slate-700 hover:text-blue-600 font-medium py-2 transition-colors">Home</a>
-                <a href="#about" class="text-slate-700 hover:text-blue-600 font-medium py-2 transition-colors">About</a>
-                <a href="#projects" class="text-slate-700 hover:text-blue-600 font-medium py-2 transition-colors">Projects</a>
-                <a href="#skills" class="text-slate-700 hover:text-blue-600 font-medium py-2 transition-colors">Skills</a>
-                <a href="#education" class="text-slate-700 hover:text-blue-600 font-medium py-2 transition-colors">Education</a>
-                <a href="#achievements" class="text-slate-700 hover:text-blue-600 font-medium py-2 transition-colors">Achievements</a>
-                <a href="#contact" class="text-slate-700 hover:text-blue-600 font-medium py-2 transition-colors">Contact</a>
-                <hr class="my-4 border-slate-100">
-                <a href="public/YangYuwei_resume.pdf" download="Yuwei_Yang_Resume.pdf" class="flex items-center justify-center gap-2 btn-primary text-white px-5 py-3 rounded-xl font-medium">
-                    <i class="fas fa-download"></i>
-                    Download Resume
-                </a>
-            </div>
-        </div>
-    </nav>
+<body>
+  <div class="shell" id="top">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Yuwei Yang home">
+        <span class="brand-mark">Y<span>Y</span></span>
+        <span class="brand-copy"><strong>Yuwei Yang</strong><small>AI · ideas · experiments</small></span>
+      </a>
+      <nav class="filters" aria-label="Filter portfolio cards">
+        <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-button" type="button" data-filter="work" aria-pressed="false">Work</button>
+        <button class="filter-button" type="button" data-filter="research" aria-pressed="false">Research</button>
+        <button class="filter-button" type="button" data-filter="about" aria-pressed="false">About</button>
+      </nav>
+      <div class="header-actions">
+        <button class="search-button" id="search-open" type="button" aria-label="Search portfolio">
+          <span aria-hidden="true">⌕</span><span class="search-label">Search</span><kbd>⌘ K</kbd>
+        </button>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch theme">
+          <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+        </button>
+      </div>
+    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="py-8 md:py-12 px-6 abstract-pattern">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-12 gap-8 lg:gap-10 items-center">
-                <div class="md:col-span-7 space-y-4 max-w-[700px]">
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full border border-blue-100">
-                        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                        <span class="text-blue-700 font-medium text-sm">Artificial Intelligence Undergraduate</span>
-                        <span class="w-1.5 h-1.5 bg-amber-400 rounded-full warm-dot"></span>
-                    </div>
-                    
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
-                        Hi, I'm <span class="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Yuwei Yang</span>
-                    </h1>
-                    
-                    <p class="text-lg text-slate-600 leading-[1.65] max-w-[690px]">
-                        I build practical AI systems across <span class="text-blue-600 font-semibold">computer vision and multimodal perception</span>, with a current focus on <span class="text-blue-600 font-semibold">intelligent agents, world models and trustworthy AI</span>.</p>
+    <main id="main">
+      <div class="intro-row">
+        <div class="intro-label"><span class="live-dot" aria-hidden="true"></span> A small window into what I’m building</div>
+        <div class="intro-note">Pick a category · open a tile · try the maze</div>
+      </div>
 
-                    <div class="signature-motto rounded-r-lg px-3.5 py-1.5 max-w-[600px]">
-                        <p class="text-xs md:text-sm text-slate-500 leading-relaxed font-medium">
-                            Close to the light. Follow the light. Become the continued light.
-                        </p>
-                    </div>
-                    
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-white rounded-lg text-slate-700 font-medium text-sm border border-slate-200 shadow-sm">Computer Vision</span>
-                        <span class="px-3 py-1.5 bg-white rounded-lg text-slate-700 font-medium text-sm border border-slate-200 shadow-sm">Embodied AI</span>
-                        <span class="px-3 py-1.5 bg-white rounded-lg text-slate-700 font-medium text-sm border border-slate-200 shadow-sm">Large Language Models</span>
-                        <span class="px-3 py-1.5 bg-white rounded-lg text-slate-700 font-medium text-sm border border-slate-200 shadow-sm">Multimodal AI Applications</span>
-                    </div>
-                    
-                    <div class="flex flex-wrap gap-3 pt-1">
-                        <a href="#projects" class="flex items-center gap-2 btn-primary text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg">
-                            View My AI Projects
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="public/YangYuwei_resume.pdf" download="Yuwei_Yang_Resume.pdf" class="flex items-center gap-2 bg-white text-slate-800 px-5 py-2.5 rounded-xl font-semibold border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all">
-                            <i class="fas fa-download"></i>
-                            Download Resume
-                        </a>
-                    </div>
-                    
-                    <p class="text-slate-500 font-medium pt-2">
-                        <i class="fas fa-star text-amber-400 mr-2"></i>
-                        Let's build impactful AI together.
-                    </p>
-                </div>
-                
-                <div class="md:col-span-5 relative max-w-[320px] mx-auto md:mx-0 md:justify-self-end w-full">
-                    <div class="hero-photo-card bg-white rounded-2xl p-2 shadow-md border border-slate-100">
-                        <div class="relative rounded-xl overflow-hidden">
-                            <img src="public/profile.jpg" alt="Yuwei Yang" class="w-full h-[360px] md:h-[400px] hero-portrait">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-2 mt-2 max-w-[260px] mx-auto">
-                        <div class="flex-1 bg-white rounded-lg px-2.5 py-1.5 shadow-sm border border-slate-100">
-                            <div class="text-[9px] text-slate-500 uppercase tracking-wider font-semibold mb-0.5">GPA</div>
-                            <div class="text-[15px] font-bold text-blue-600">3.81 / 4.00</div>
-                        </div>
-                        <div class="flex-1 bg-white rounded-lg px-2.5 py-1.5 shadow-sm border border-slate-100">
-                            <div class="text-[9px] text-slate-500 uppercase tracking-wider font-semibold mb-0.5">Rank</div>
-                            <div class="text-[15px] font-bold text-blue-600">9 / 170</div>
-                        </div>
-                    </div>
-                    
-                    <div class="absolute -top-2.5 -right-2.5 w-16 h-16 bg-gradient-to-br from-blue-400/20 to-sky-400/20 rounded-full blur-2xl"></div>
-                    <div class="absolute -bottom-3 -left-3 w-24 h-24 bg-gradient-to-br from-sky-400/15 to-blue-400/15 rounded-full blur-3xl"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+      <section class="bento-grid" id="portfolio-grid" aria-label="Yuwei's portfolio">
+        <article class="tile hero span-8" data-category="about">
+          <div class="hero-kicker"><span class="live-dot" aria-hidden="true"></span> Artificial Intelligence Undergraduate</div>
+          <h1>Building AI that <span>sees, reasons,</span> and helps.</h1>
+          <p class="hero-copy">I’m Yuwei, an AI undergraduate at Xiamen University Malaysia. I explore computer vision, multimodal systems, and intelligent agents—turning ideas into useful prototypes along the way.</p>
+          <div class="hero-actions">
+            <a class="button-primary" href="#maze">Explore the work <span aria-hidden="true">↘</span></a>
+            <a class="button-secondary" href="public/YangYuwei_resume.pdf" download="Yuwei_Yang_Resume.pdf">Download résumé <span aria-hidden="true">↓</span></a>
+          </div>
+          <span class="hero-foot">Close to the light · Follow the light</span>
+        </article>
 
-    <!-- About Section -->
-    <section id="about" class="py-12 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-7">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">About Me</h2>
-                <div class="gold-accent-line mx-auto mt-3"></div>
-            </div>
-            
-            <div class="grid lg:grid-cols-12 gap-7">
-                <div class="lg:col-span-7">
-                    <div class="bg-white rounded-2xl p-5 shadow-lg border border-slate-100 card-hover">
-                        <p class="text-[15px] text-slate-700 leading-[1.68] mb-4">
-                            I'm an AI undergraduate passionate about solving real-world problems through intelligent systems. My work focuses on 
-                            <span class="text-blue-600 font-semibold">computer vision for agriculture</span>, 
-                            <span class="text-blue-600 font-semibold">LLM-powered applications</span>, and building 
-                            <span class="text-blue-600 font-semibold">robust data pipelines</span> that turn data into value. I enjoy learning, building, and collaborating on ideas that can make a positive impact.
-                        </p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full border border-blue-100">3+ Major Projects</span>
-                            <span class="px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full border border-indigo-100">AI & CV Focus</span>
-                            <span class="px-3 py-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-100">Research + Engineering</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="lg:col-span-5 grid grid-cols-2 gap-3.5">
-                    <div class="bg-gradient-to-br from-blue-50 to-white rounded-xl p-3.5 border border-blue-100 card-hover">
-                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-2">
-                            <i class="fas fa-graduation-cap text-sm"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-800 mb-0.5 text-sm">AI Undergraduate</h3>
-                        <p class="text-xs text-slate-600 leading-snug">B.Eng in Artificial Intelligence</p>
-                    </div>
-                    
-                    <div class="bg-gradient-to-br from-indigo-50 to-white rounded-xl p-3.5 border border-indigo-100 card-hover">
-                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 mb-2">
-                            <i class="fas fa-hammer text-sm"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-800 mb-0.5 text-sm">Builder</h3>
-                        <p class="text-xs text-slate-600 leading-snug">From research prototypes to real-world systems</p>
-                    </div>
-                    
-                    <div class="bg-gradient-to-br from-emerald-50 to-white rounded-xl p-3.5 border border-emerald-100 card-hover">
-                        <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 mb-2">
-                            <i class="fas fa-lightbulb text-sm"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-800 mb-0.5 text-sm">Problem Solver</h3>
-                        <p class="text-xs text-slate-600 leading-snug">Data-driven solutions with real impact</p>
-                    </div>
-                    
-                    <div class="bg-gradient-to-br from-amber-50 to-white rounded-xl p-3.5 border border-amber-100 card-hover">
-                        <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 mb-2">
-                            <i class="fas fa-users text-sm"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-800 mb-0.5 text-sm">Collaborative</h3>
-                        <p class="text-xs text-slate-600 leading-snug">Open to teamwork & new opportunities</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <article class="tile portrait-tile span-4" data-category="about">
+          <button class="portrait-toggle" id="portrait-toggle" type="button" aria-label="Flip profile card" aria-expanded="false">
+            <span class="flip-inner">
+              <span class="portrait-face portrait-front">
+                <img src="public/profile.jpg" alt="Portrait of Yuwei Yang">
+                <span class="portrait-info"><strong>Yuwei Yang</strong><small>AI · XMUM · Malaysia</small></span>
+              </span>
+              <span class="portrait-face portrait-back">
+                <span class="eyebrow"><span class="eyebrow-dot"></span> A little more</span>
+                <strong>Research-minded.<br>Prototype-oriented.</strong>
+                <small>I like exploring a question, building a small experiment, and learning from what happens.</small>
+              </span>
+            </span>
+            <span class="flip-label" id="flip-label">Flip to meet me ↻</span>
+          </button>
+        </article>
 
-    <!-- Projects Section -->
-    <section id="projects" class="py-12 px-6 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-4">
-                <div>
-                    <p class="text-xs uppercase tracking-[0.18em] text-blue-600 font-bold mb-2">Selected work</p>
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Featured Projects</h2>
-                    <p class="text-slate-600 text-base">AI research tools, search systems, modelling and interactive software.</p>
-                </div>
-                <a href="https://github.com/yyuwei66-sketch?tab=repositories" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors">
-                    View all projects
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
+        <article class="tile focus-card span-4 tile-pad" data-category="research">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Areas I’m exploring</div>
+          <h2 class="tile-heading">Curiosity, in orbit.</h2>
+          <p class="tile-copy">Choose a signal to see what I’m curious about.</p>
+          <div class="focus-orbit" aria-hidden="true"><span class="focus-node"></span></div>
+          <div class="focus-buttons" role="group" aria-label="Research interests">
+            <button class="focus-chip" type="button" data-focus="vision" aria-pressed="true">Computer vision</button>
+            <button class="focus-chip" type="button" data-focus="embodied" aria-pressed="false">Embodied AI</button>
+            <button class="focus-chip" type="button" data-focus="multimodal" aria-pressed="false">Multimodal</button>
+            <button class="focus-chip" type="button" data-focus="agents" aria-pressed="false">Agents &amp; world models</button>
+            <button class="focus-chip" type="button" data-focus="trust" aria-pressed="false">Trustworthy AI</button>
+          </div>
+          <p class="focus-copy" id="focus-copy" aria-live="polite">Learning how visual systems can turn images into reliable, useful signals.</p>
+        </article>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
-                <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-lg card-hover flex flex-col project-card">
-                    <div class="relative min-h-[170px] overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 p-5">
-                        <div class="absolute -right-6 -top-10 w-36 h-36 rounded-full border border-white/10 bg-white/5"></div>
-                        <div class="relative z-10 flex min-h-[130px] flex-col justify-between">
-                            <div class="flex items-start justify-between gap-3">
-                                <span class="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-blue-100">Research × RAG</span>
-                                <span class="text-3xl">🧪</span>
-                            </div>
-                            <p class="max-w-[90%] text-xs leading-relaxed text-slate-200">Evidence-backed retrieval for membrane and thin-film research.</p>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col flex-1">
-                        <h3 class="text-base font-bold text-slate-900 mb-1.5">Membra-AI</h3>
-                        <p class="text-slate-600 mb-3 text-xs leading-relaxed flex-1">A student research collaboration building a knowledge assistant for membrane literature and comparable experiments.</p>
-                        <div class="flex flex-wrap gap-1.5 mb-3">
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Python</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">RAG</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Semantic Search</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Streamlit</span>
-                        </div>
-                        <p class="text-[11px] font-semibold text-slate-500 mb-3">2,701 question-answer and evidence pairs</p>
-                        <a href="https://github.com/yyuwei66-sketch/Membra-AI" target="_blank" rel="noopener noreferrer" class="project-action flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-slate-700 rounded-lg text-[11px] font-semibold border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-colors">
-                            <i class="fab fa-github text-sm"></i>
-                            View source
-                            <i class="fas fa-arrow-up-right-from-square text-[9px]"></i>
-                        </a>
-                    </div>
-                </div>
+        <article class="tile membra-card span-4 tile-pad" data-category="work research">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Research × retrieval</div>
+          <h2 class="tile-heading">Membra-AI</h2>
+          <p class="tile-copy">A knowledge assistant for membrane literature and comparable experiments, grounded in retrieved evidence.</p>
+          <div class="big-number"><strong>2,701</strong><span>question-answer &amp; evidence pairs</span></div>
+          <div class="membra-visual" aria-hidden="true">
+            <svg viewBox="0 0 132 105">
+              <line x1="22" y1="53" x2="57" y2="23"></line><line x1="22" y1="53" x2="64" y2="82"></line><line x1="57" y1="23" x2="98" y2="40"></line><line x1="64" y1="82" x2="101" y2="69"></line><line x1="98" y1="40" x2="101" y2="69"></line><line x1="57" y1="23" x2="64" y2="82"></line>
+              <circle cx="22" cy="53" r="7"></circle><circle cx="57" cy="23" r="6"></circle><circle cx="64" cy="82" r="8"></circle><circle cx="98" cy="40" r="7"></circle><circle cx="101" cy="69" r="5"></circle>
+            </svg>
+          </div>
+          <button class="project-detail-button" type="button" data-project="membra">Explore the project <span aria-hidden="true">↗</span></button>
+        </article>
 
-                <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-lg card-hover flex flex-col project-card">
-                    <div class="relative min-h-[170px] overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-5">
-                        <div class="absolute -right-6 -top-10 w-36 h-36 rounded-full border border-white/10 bg-white/5"></div>
-                        <div class="relative z-10 flex min-h-[130px] flex-col justify-between">
-                            <div class="flex items-start justify-between gap-3">
-                                <span class="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-blue-100">AI × Game Systems</span>
-                                <span class="text-3xl">🧭</span>
-                            </div>
-                            <p class="max-w-[90%] text-xs leading-relaxed text-slate-200">A 30 × 30 wraparound pursuit game with generated mazes.</p>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col flex-1">
-                        <h3 class="text-base font-bold text-slate-900 mb-1.5">Maze Escape AI</h3>
-                        <p class="text-slate-600 mb-3 text-xs leading-relaxed flex-1">A playable human-versus-monster game comparing search and optimization agents in a changing maze.</p>
-                        <div class="flex flex-wrap gap-1.5 mb-3">
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Python</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">C++</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Flask</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">A* · BFS · Minimax</span>
-                        </div>
-                        <p class="text-[11px] font-semibold text-slate-500 mb-3">Genetic map generation and five pursuit strategies</p>
-                        <a href="https://github.com/yyuwei66-sketch/maze-escape-ai" target="_blank" rel="noopener noreferrer" class="project-action flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-slate-700 rounded-lg text-[11px] font-semibold border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-colors">
-                            <i class="fab fa-github text-sm"></i>
-                            View source
-                            <i class="fas fa-arrow-up-right-from-square text-[9px]"></i>
-                        </a>
-                    </div>
-                </div>
+        <article class="tile education-card span-4 tile-pad" data-category="about">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Learning at XMUM</div>
+          <div class="school-mark" aria-hidden="true">AI</div>
+          <h2 class="edu-name">Xiamen University Malaysia</h2>
+          <div class="edu-degree">B.Eng. in Artificial Intelligence · 2025–2029</div>
+          <div class="edu-stats">
+            <div class="edu-stat"><strong>3.81</strong><span>GPA / 4.00</span></div>
+            <div class="edu-stat"><strong>9 / 170</strong><span>class rank</span></div>
+          </div>
+        </article>
 
-                <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-lg card-hover flex flex-col project-card">
-                    <div class="relative min-h-[170px] overflow-hidden bg-gradient-to-br from-indigo-950 via-slate-900 to-blue-950 p-5">
-                        <div class="absolute -right-6 -top-10 w-36 h-36 rounded-full border border-white/10 bg-white/5"></div>
-                        <div class="relative z-10 flex min-h-[130px] flex-col justify-between">
-                            <div class="flex items-start justify-between gap-3">
-                                <span class="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-blue-100">Applied NLP</span>
-                                <span class="text-3xl">💬</span>
-                            </div>
-                            <p class="max-w-[90%] text-xs leading-relaxed text-slate-200">A retrieval-based FAQ assistant for new students.</p>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col flex-1">
-                        <h3 class="text-base font-bold text-slate-900 mb-1.5">XMUM Freshman Chatbot</h3>
-                        <p class="text-slate-600 mb-3 text-xs leading-relaxed flex-1">Combines intent rules, category prediction and answer retrieval to respond to freshman enquiries.</p>
-                        <div class="flex flex-wrap gap-1.5 mb-3">
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Python</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Flask</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Naive Bayes</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Linear SVM</span>
-                        </div>
-                        <p class="text-[11px] font-semibold text-slate-500 mb-3">Confidence-aware response strategy</p>
-                        <a href="https://github.com/yyuwei66-sketch/xmum-freshman-chatbot" target="_blank" rel="noopener noreferrer" class="project-action flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-slate-700 rounded-lg text-[11px] font-semibold border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-colors">
-                            <i class="fab fa-github text-sm"></i>
-                            View source
-                            <i class="fas fa-arrow-up-right-from-square text-[9px]"></i>
-                        </a>
-                    </div>
-                </div>
+        <article class="tile maze-card span-6 tile-pad" id="maze" data-category="work">
+          <div class="maze-header">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-dot"></span> Playable project</div>
+              <h2 class="tile-heading">Maze Escape AI</h2>
+              <p class="tile-copy">Can you find the exit? Move with the arrow keys or tap the controls. Ask the search agent to reveal a shortest route.</p>
+            </div>
+            <button class="project-detail-button" type="button" data-project="maze">Project details ↗</button>
+          </div>
+          <div class="maze-wrap">
+            <div class="maze-board" id="maze-board" role="grid" aria-label="Maze game. Use arrow keys to reach the exit." tabindex="0"></div>
+            <div class="game-side">
+              <p class="game-status" id="game-status" aria-live="polite">You are the compass. Reach the green exit.</p>
+              <div class="game-controls" role="group" aria-label="Maze movement controls">
+                <button type="button" data-move="up" aria-label="Move up">↑</button>
+                <button type="button" data-move="left" aria-label="Move left">←</button>
+                <button type="button" data-move="down" aria-label="Move down">↓</button>
+                <button type="button" data-move="right" aria-label="Move right">→</button>
+              </div>
+              <div class="game-actions">
+                <button class="small-action" id="route-button" type="button">Show AI route</button>
+                <button class="small-action" id="maze-reset" type="button">Reset</button>
+              </div>
+            </div>
+          </div>
+          <div class="maze-footer"><span>Search methods: A* · BFS · Minimax</span><span>Mini demo · <a class="text-link" href="https://github.com/yyuwei66-sketch/maze-escape-ai" target="_blank" rel="noopener noreferrer">source ↗</a></span></div>
+        </article>
 
-                <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-lg card-hover flex flex-col project-card">
-                    <div class="relative min-h-[170px] overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-violet-950 p-5">
-                        <div class="absolute -right-6 -top-10 w-36 h-36 rounded-full border border-white/10 bg-white/5"></div>
-                        <div class="relative z-10 flex min-h-[130px] flex-col justify-between">
-                            <div class="flex items-start justify-between gap-3">
-                                <span class="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-blue-100">Interactive Web</span>
-                                <span class="text-3xl">🎮</span>
-                            </div>
-                            <p class="max-w-[90%] text-xs leading-relaxed text-slate-200">Alchemy Lab · Arcane Escape · Space Runner</p>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col flex-1">
-                        <h3 class="text-base font-bold text-slate-900 mb-1.5">Interactive Systems Lab</h3>
-                        <p class="text-slate-600 mb-3 text-xs leading-relaxed flex-1">Three browser games and a Three.js runner built around reusable interactions, game states and visual feedback.</p>
-                        <div class="flex flex-wrap gap-1.5 mb-4">
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">JavaScript</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Three.js</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Canvas</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Game Systems</span>
-                        </div>
-                        <div class="flex gap-2 mt-auto">
-                            <a href="https://github.com/yyuwei66-sketch/interactive-systems-lab" target="_blank" rel="noopener noreferrer" class="project-action flex flex-1 items-center justify-center gap-1.5 px-2.5 py-2 bg-white text-slate-700 rounded-lg text-[11px] font-semibold border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-colors">
-                                <i class="fab fa-github text-sm"></i>
-                                Source
-                            </a>
-                            <a href="https://yyuwei66-sketch.github.io/interactive-systems-lab/" target="_blank" rel="noopener noreferrer" class="flex flex-1 items-center justify-center gap-1.5 px-2.5 py-2 btn-primary text-white rounded-lg text-[11px] font-semibold transition-colors">
-                                Live demo
-                                <i class="fas fa-arrow-up-right-from-square text-[9px]"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <article class="tile now-card span-6 tile-pad" data-category="research">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Current signals</div>
+          <h2>Not just models.<br>Systems that make sense.</h2>
+          <p class="tile-copy">I’m curious about the space where perception, language, and action meet.</p>
+          <ul class="topic-list">
+            <li>Computer vision for real-world data</li>
+            <li>Multimodal AI applications</li>
+            <li>Intelligent agents and world models</li>
+            <li>Trustworthy, human-centered AI</li>
+          </ul>
+          <div class="time-box"><span>Xiamen University Malaysia · MYT</span><strong id="my-time">--:--:--</strong></div>
+        </article>
 
-                <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-lg card-hover flex flex-col project-card">
-                    <div class="relative min-h-[170px] overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-sky-950 p-5">
-                        <div class="absolute -right-6 -top-10 w-36 h-36 rounded-full border border-white/10 bg-white/5"></div>
-                        <div class="relative z-10 flex min-h-[130px] flex-col justify-between">
-                            <div class="flex items-start justify-between gap-3">
-                                <span class="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-blue-100">Team Modeling</span>
-                                <span class="text-3xl">📐</span>
-                            </div>
-                            <p class="max-w-[90%] text-xs leading-relaxed text-slate-200">Data preparation, analysis notebooks and a technical report.</p>
-                        </div>
-                    </div>
-                    <div class="p-4 flex flex-col flex-1">
-                        <h3 class="text-base font-bold text-slate-900 mb-1.5">2026 Modeling Project</h3>
-                        <p class="text-slate-600 mb-3 text-xs leading-relaxed flex-1">A collaborative project organized into four analysis tracks with shared data and report materials.</p>
-                        <div class="flex flex-wrap gap-1.5 mb-3">
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Python</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Jupyter</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Data Analysis</span>
-                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[10px] font-medium rounded-full">Team Project</span>
-                        </div>
-                        <a href="https://github.com/yyuwei66-sketch/CUMCM_2026" target="_blank" rel="noopener noreferrer" class="project-action flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-slate-700 rounded-lg text-[11px] font-semibold border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-colors">
-                            <i class="fab fa-github text-sm"></i>
-                            View source
-                            <i class="fas fa-arrow-up-right-from-square text-[9px]"></i>
-                        </a>
-                    </div>
-                </div>
+        <article class="tile toolbox-card span-5 tile-pad" data-category="about work">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Toolbox</div>
+          <h2 class="tile-heading">Tools I’ve been learning with.</h2>
+          <div class="toolbox-layout">
+            <div class="tool-ring" aria-label="Interactive technology constellation">
+              <span class="tool-orbit"></span><span class="tool-orbit"></span><span class="tool-orbit"></span><span class="tool-orbit"></span><span class="tool-orbit"></span><span class="tool-orbit"></span>
+              <span class="tool-center" id="tool-center">Python</span>
             </div>
+            <div class="tool-list" id="tool-list" aria-label="Select a tool"></div>
+          </div>
+          <div class="stack-footer"><span id="tool-note" aria-live="polite">Select a tool to focus the orbit.</span><button class="text-link" id="shuffle-tools" type="button">Rearrange ↻</button></div>
+        </article>
 
-            <div class="mt-12">
-                <div class="flex items-center gap-3 mb-5">
-                    <div class="h-px flex-1 bg-slate-200"></div>
-                    <h3 class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500 whitespace-nowrap">Earlier research work</h3>
-                    <div class="h-px flex-1 bg-slate-200"></div>
-                </div>
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
-                        <div class="flex items-center gap-3 mb-3">
-                            <span class="text-2xl">🌿</span>
-                            <h4 class="font-bold text-slate-900 text-sm">Agricultural Disease Classification</h4>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Compared ResNet50 and YOLOv8n/s on a 26-class image dataset, with repeatable preprocessing and evaluation workflows. Validation accuracy was around 70%+.</p>
-                        <div class="flex flex-wrap gap-1.5">
-                            <span class="px-2 py-0.5 bg-white text-slate-600 text-[10px] font-medium rounded-full border border-slate-200">Computer Vision</span>
-                            <span class="px-2 py-0.5 bg-white text-slate-600 text-[10px] font-medium rounded-full border border-slate-200">PyTorch</span>
-                            <span class="px-2 py-0.5 bg-white text-slate-600 text-[10px] font-medium rounded-full border border-slate-200">ResNet50 · YOLOv8</span>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
-                        <div class="flex items-center gap-3 mb-3">
-                            <span class="text-2xl">📚</span>
-                            <h4 class="font-bold text-slate-900 text-sm">Oil Palm Agronomy Q&A Pipeline</h4>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-3">Turned academic papers into structured Q&A data using Markdown parsing, text chunking, LLM extraction and schema validation.</p>
-                        <div class="flex flex-wrap gap-1.5">
-                            <span class="px-2 py-0.5 bg-white text-slate-600 text-[10px] font-medium rounded-full border border-slate-200">LLM Data Pipeline</span>
-                            <span class="px-2 py-0.5 bg-white text-slate-600 text-[10px] font-medium rounded-full border border-slate-200">JSONL</span>
-                            <span class="px-2 py-0.5 bg-white text-slate-600 text-[10px] font-medium rounded-full border border-slate-200">Research Tools</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <article class="tile project-card span-3 tile-pad" data-category="work" data-project-card="freshman">
+          <div class="project-visual chat"><span class="visual-label">Applied NLP</span><span class="visual-shapes" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="project-title-row"><h2>XMUM Freshman Chatbot</h2><span class="project-index">01</span></div>
+          <p class="tile-copy">An FAQ assistant combining intent rules, category prediction, and answer retrieval for new students.</p>
+          <div class="project-bottom"><div class="chip-row"><span class="chip">Python</span><span class="chip">Flask</span></div><button class="project-detail-button" type="button" data-project="freshman">Details ↗</button></div>
+        </article>
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-11 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-7">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2.5">Skills</h2>
-                <p class="text-slate-600 text-base">Technologies and tools I work with</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-                <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-3.5 border border-blue-100 card-hover">
-                    <div class="w-8 h-8 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-2">
-                        <i class="fas fa-code text-base"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-1">Programming</h3>
-                    <p class="text-xs text-slate-600 mb-2">Languages & core programming skills</p>
-                    <div class="space-y-1.5">
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-blue-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">Python</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-blue-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">C</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-blue-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">MATLAB</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-blue-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">JavaScript</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-3.5 border border-indigo-100 card-hover">
-                    <div class="w-8 h-8 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-2">
-                        <i class="fas fa-brain text-base"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-1">AI / ML</h3>
-                    <p class="text-xs text-slate-600 mb-2">ML frameworks & data analysis</p>
-                    <div class="space-y-1.5">
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-indigo-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">PyTorch</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-indigo-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">scikit-learn</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-indigo-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">NumPy</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-indigo-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">pandas</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-indigo-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">matplotlib</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gradient-to-br from-emerald-50 to-white rounded-2xl p-3.5 border border-emerald-100 card-hover">
-                    <div class="w-8 h-8 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 mb-2">
-                        <i class="fas fa-eye text-base"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-1">Computer Vision</h3>
-                    <p class="text-xs text-slate-600 mb-2">Deep learning & image understanding</p>
-                    <div class="space-y-1.5">
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-emerald-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">ResNet50</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-emerald-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">YOLOv8</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-emerald-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">Image Classification</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gradient-to-br from-amber-50 to-white rounded-2xl p-3.5 border border-amber-100 card-hover">
-                    <div class="w-8 h-8 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 mb-2">
-                        <i class="fas fa-tools text-base"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-1">Tools</h3>
-                    <p class="text-xs text-slate-600 mb-2">Developer tools & productivity</p>
-                    <div class="space-y-1.5">
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-amber-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">GitHub</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-amber-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">VS Code</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-amber-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">Jupyter</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-amber-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">Anaconda</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check text-amber-500 text-xs"></i>
-                            <span class="text-slate-700 text-[13px] font-medium">LaTeX</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <article class="tile project-card span-3 tile-pad" data-category="work" data-project-card="systems">
+          <div class="project-visual web"><span class="visual-label">Interactive web</span><span class="visual-shapes" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="project-title-row"><h2>Interactive Systems Lab</h2><span class="project-index">02</span></div>
+          <p class="tile-copy">Three browser games and a Three.js runner exploring reusable interactions and game states.</p>
+          <div class="project-bottom"><div class="chip-row"><span class="chip">JavaScript</span><span class="chip">Three.js</span></div><button class="project-detail-button" type="button" data-project="systems">Details ↗</button></div>
+        </article>
 
-    <!-- Education Section -->
-    <section id="education" class="py-12 px-6 bg-white">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Education</h2>
-            </div>
-            
-            <div class="bg-gradient-to-br from-blue-50 via-sky-50 to-white rounded-2xl p-5 md:p-6 shadow-lg border border-blue-100">
-                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
-                    <div class="flex items-start gap-4 flex-1">
-                        <div class="w-11 h-11 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0">
-                            <i class="fas fa-university text-lg"></i>
-                        </div>
-                        <div>
-                            <p class="text-[9px] uppercase tracking-wider text-blue-500/80 font-semibold mb-1">Degree</p>
-                            <h3 class="text-lg font-bold text-slate-900 mb-1">Xiamen University Malaysia</h3>
-                            <p class="text-base text-slate-700 font-medium mb-1">Bachelor of Engineering in Artificial Intelligence</p>
-                            <p class="text-slate-600 text-sm">Sep 2025 - Jun 2029 Expected</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex flex-col gap-2 flex-shrink-0">
-                        <p class="text-[9px] uppercase tracking-wider text-blue-500/80 font-semibold">Academic Performance</p>
-                        <div class="flex gap-2.5">
-                            <div class="bg-white rounded-xl px-3.5 py-2.5 shadow-sm border border-slate-200 text-center min-w-[82px]">
-                                <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-0.5">GPA</p>
-                                <p class="text-xl font-bold text-blue-600 leading-tight">3.81</p>
-                                <p class="text-xs text-slate-500">/ 4.00</p>
-                            </div>
-                            <div class="bg-white rounded-xl px-3.5 py-2.5 shadow-sm border border-slate-200 text-center min-w-[82px]">
-                                <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-0.5">Rank</p>
-                                <p class="text-xl font-bold text-blue-600 leading-tight">9</p>
-                                <p class="text-xs text-slate-500">/ 170</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mt-4 pt-4 border-t border-blue-100/60">
-                    <h4 class="font-semibold text-slate-800 mb-2.5 text-sm">Research Interests</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-white text-slate-700 text-xs font-medium border border-blue-200 shadow-sm rounded-lg">Computer Vision</span>
-                        <span class="px-3 py-1 bg-white text-slate-700 text-xs font-medium border border-blue-200 shadow-sm rounded-lg">Embodied AI</span>
-                        <span class="px-3 py-1 bg-white text-slate-700 text-xs font-medium border border-blue-200 shadow-sm rounded-lg">Large Language Models</span>
-                        <span class="px-3 py-1 bg-white text-slate-700 text-xs font-medium border border-blue-200 shadow-sm rounded-lg">Multimodal AI Applications</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Achievements Section -->
-    <section id="achievements" class="py-12 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Achievements &amp; Activities</h2>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
-                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-lg card-hover h-full">
-                    <div class="w-9 h-9 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center text-blue-700 mb-2.5">
-                        <i class="fas fa-users text-base"></i>
-                    </div>
-                    <h3 class="font-bold text-slate-900 mb-1.5 text-sm leading-snug">Technology Society<br>Committee Member</h3>
-                    <p class="text-xs text-slate-600 leading-snug">Active committee member contributing to tech events, workshops, and tech community initiatives.</p>
-                </div>
-                
-                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-lg card-hover h-full">
-                    <div class="w-9 h-9 bg-gradient-to-br from-indigo-100 to-indigo-200 rounded-xl flex items-center justify-center text-indigo-700 mb-2.5">
-                        <i class="fas fa-trophy text-base"></i>
-                    </div>
-                    <h3 class="font-bold text-slate-900 mb-1.5 text-sm leading-snug">MCM/ICM Participation</h3>
-                    <p class="text-xs text-slate-600 leading-snug">Participated in the Mathematical Contest in Modeling competition.</p>
-                </div>
-                
-                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-lg card-hover h-full">
-                    <div class="w-9 h-9 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-xl flex items-center justify-center text-emerald-700 mb-2.5">
-                        <i class="fas fa-flask text-base"></i>
-                    </div>
-                    <h3 class="font-bold text-slate-900 mb-1.5 text-sm leading-snug">Research Work</h3>
-                    <p class="text-xs text-slate-600 leading-snug">Engaged in AI research projects including computer vision and LLM-based applications.</p>
-                </div>
-                
-                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-lg card-hover h-full">
-                    <div class="w-9 h-9 bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl flex items-center justify-center text-amber-700 mb-2.5">
-                        <i class="fas fa-language text-base"></i>
-                    </div>
-                    <h3 class="font-bold text-slate-900 mb-1.5 text-sm leading-snug">English Proficiency</h3>
-                    <p class="text-xs text-slate-600 leading-snug">IELTS 6.0 certified; retake target 7.5+.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Contact & Footer Section -->
-    <section id="contact" class="bg-slate-900 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-5">
-            <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
-        </div>
-        <div class="absolute top-0 left-0 right-0 h-px footer-gold-accent"></div>
-        
-        <div class="max-w-7xl mx-auto px-6 py-14 relative z-10">
-            <div class="grid lg:grid-cols-12 gap-8 mb-8">
-                <div class="lg:col-span-4">
-                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Let's connect!</h2>
-                    <div class="gold-accent-line mb-4"></div>
-                    <p class="text-slate-300 text-base leading-relaxed max-w-md">
-                        Feel free to reach out for collaborations, opportunities, or just a friendly hello.
-                    </p>
-                </div>
-                
-                <div class="lg:col-span-8 grid sm:grid-cols-3 gap-4">
-                    <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50 min-w-0">
-                        <div class="w-9 h-9 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 mb-3">
-                            <i class="fas fa-envelope text-base"></i>
-                        </div>
-                        <h3 class="font-semibold text-white mb-2 text-sm">Email</h3>
-                        <a href="mailto:AIT2509049@xmu.edu.my" class="text-slate-300 text-sm hover:text-blue-400 transition-colors block mb-1 break-words">
-                            AIT2509049@xmu.edu.my
-                        </a>
-                        <a href="mailto:yyuwei66@gmail.com" class="text-slate-300 text-sm hover:text-blue-400 transition-colors block break-words">
-                            yyuwei66@gmail.com
-                        </a>
-                    </div>
-                    
-                    <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50 min-w-0">
-                        <div class="w-9 h-9 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 mb-3">
-                            <i class="fab fa-github text-base"></i>
-                        </div>
-                        <h3 class="font-semibold text-white mb-2 text-sm">GitHub</h3>
-                        <a href="https://github.com/yyuwei66-sketch" target="_blank" rel="noopener noreferrer" class="text-slate-300 text-sm hover:text-blue-400 transition-colors break-words">
-                            github.com/yyuwei66-sketch
-                        </a>
-                    </div>
-                    
-                    <div class="bg-slate-800/60 rounded-xl p-4 border border-slate-700/50 min-w-0">
-                        <div class="w-9 h-9 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 mb-3">
-                            <i class="fas fa-map-marker-alt text-base"></i>
-                        </div>
-                        <h3 class="font-semibold text-white mb-2 text-sm">Location</h3>
-                        <p class="text-slate-300 text-sm">
-                            Xiamen University Malaysia
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-slate-500 text-sm">&copy; 2025 Yuwei Yang. All rights reserved.</p>
-                <div class="flex gap-3">
-                    <a href="https://github.com/yyuwei66-sketch" target="_blank" rel="noopener noreferrer" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors">
-                        <i class="fab fa-github"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <script>
-        if (window.location.protocol === 'file:') {
-            document.querySelectorAll('a[href="public/YangYuwei_resume.pdf"]').forEach(link => {
-                link.href = 'public/YangYuwei_resume.pdf';
-            });
-        }
+        <article class="tile project-card span-3 tile-pad" data-category="work" data-project-card="modeling">
+          <div class="project-visual model"><span class="visual-label">Team modeling</span><span class="visual-shapes" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="project-title-row"><h2>2026 Modeling Project</h2><span class="project-index">03</span></div>
+          <p class="tile-copy">A collaborative project with four analysis tracks, shared data, notebooks, and report materials.</p>
+          <div class="project-bottom"><div class="chip-row"><span class="chip">Python</span><span class="chip">Jupyter</span></div><button class="project-detail-button" type="button" data-project="modeling">Details ↗</button></div>
+        </article>
 
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const closeMobileMenu = document.getElementById('closeMobileMenu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('open');
-        });
-        
-        closeMobileMenu.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-        });
-        
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-            });
-        });
-    </script>
+        <article class="tile project-card span-3 tile-pad" data-category="work research" data-project-card="agriculture">
+          <div class="project-visual crop"><span class="visual-label">Computer vision</span><span class="visual-shapes" aria-hidden="true"><i></i><i></i><i></i></span></div>
+          <div class="project-title-row"><h2>Agricultural Disease Classification</h2><span class="project-index">04</span></div>
+          <p class="tile-copy">Compared ResNet50 and YOLOv8 on a 26-class image dataset with repeatable evaluation workflows.</p>
+          <div class="project-bottom"><div class="chip-row"><span class="chip">PyTorch</span><span class="chip">YOLOv8</span></div><button class="project-detail-button" type="button" data-project="agriculture">Details ↗</button></div>
+        </article>
+
+        <article class="tile research-card span-4 tile-pad" data-category="research">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Research notes</div>
+          <h2 class="tile-heading">From image data to useful evidence.</h2>
+          <p class="tile-copy">Past work includes agricultural disease classification and computer-vision experiments. Recent projects explore retrieval tools for scientific literature and LLM-powered applications.</p>
+          <div class="research-stat">
+            <div><strong>26</strong><span>image classes studied</span></div>
+            <div><strong>70%+</strong><span>validation accuracy</span></div>
+            <div><strong>CV + LLM</strong><span>project themes</span></div>
+          </div>
+          <div class="chip-row"><span class="chip">ResNet50</span><span class="chip">YOLOv8</span><span class="chip">RAG</span></div>
+        </article>
+
+        <article class="tile span-4 tile-pad" data-category="about">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> A few milestones</div>
+          <h2 class="tile-heading">Learning with people.</h2>
+          <div class="mini-timeline">
+            <div class="timeline-item"><span><strong>Artificial Intelligence</strong>Bachelor of Engineering · XMUM · 2025–2029</span></div>
+            <div class="timeline-item"><span><strong>Technology Society</strong>Committee member supporting campus tech activities</span></div>
+            <div class="timeline-item"><span><strong>MCM / ICM</strong>Participated in mathematical modeling</span></div>
+          </div>
+        </article>
+
+        <article class="tile contact-card span-4 tile-pad" data-category="about">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-dot"></span> Make something useful</div>
+            <h2 class="tile-heading">Curious about a project together?</h2>
+            <p class="tile-copy">I’m open to research conversations, collaborations, and thoughtful ideas.</p>
+            <a class="button-secondary" href="mailto:yyuwei66@gmail.com">Say hello <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="contact-links">
+            <a href="mailto:yyuwei66@gmail.com">Email ↗</a>
+            <a href="https://github.com/yyuwei66-sketch" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a href="public/YangYuwei_resume.pdf" download="Yuwei_Yang_Resume.pdf">Résumé PDF ↓</a>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <span>© <span id="year">2026</span> Yuwei Yang · Made with curiosity.</span>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </div>
+
+  <dialog id="project-dialog" aria-labelledby="project-dialog-title">
+    <div class="dialog-body">
+      <div class="dialog-head"><div><div class="eyebrow" id="project-category"><span class="eyebrow-dot"></span> Project</div><h2 class="dialog-title" id="project-dialog-title"></h2></div><button class="dialog-close" type="button" data-close="project-dialog" aria-label="Close details">×</button></div>
+      <p class="dialog-copy" id="project-description"></p>
+      <div class="dialog-stack" id="project-stack"></div>
+      <div class="dialog-links" id="project-links"></div>
+    </div>
+  </dialog>
+
+  <dialog id="search-dialog" class="search-dialog" aria-labelledby="search-title">
+    <div class="dialog-body">
+      <div class="dialog-head"><div><div class="eyebrow"><span class="eyebrow-dot"></span> Quick navigation</div><h2 class="tile-heading" id="search-title">Find a project or topic.</h2></div><button class="dialog-close" type="button" data-close="search-dialog" aria-label="Close search">×</button></div>
+      <input class="search-input" id="search-input" type="search" placeholder="Try “vision”, “maze”, or “RAG”…" autocomplete="off">
+      <p class="search-hint">Tip: press Ctrl/⌘ K to open search.</p>
+      <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
