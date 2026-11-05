@@ -1,16 +1,28 @@
-# Yuwei Yang Portfolio
+# Yuwei Yang — Portfolio
 
-Static personal portfolio published with GitHub Pages. The Pages version is the root `index.html` with images and the résumé PDF in `public/`.
+A static personal portfolio published with GitHub Pages.
 
-## Publish
+## Site files
 
-1. Create a public repository named `yyuwei66-sketch.github.io`.
-2. Push this project to the `main` branch.
-3. In **Settings → Pages**, choose **Deploy from a branch**, then select `main` and `/ (root)`.
-4. The site will be available at `https://yyuwei66-sketch.github.io` after Pages finishes publishing.
+- `index.html` is the website entry point.
+- `public/` contains the profile image and résumé PDF.
 
-The Next.js source under `src/` is retained in the repository, but GitHub Pages serves the static `index.html` site directly.
+Keep `index.html` and `public/` at the repository root so the page can load its assets.
+
+## Publish with GitHub Pages
+
+This site is hosted from the `yyuwei66-sketch/yuwei-portfolio` repository.
+
+1. Open **Settings → Pages**.
+2. Under **Build and deployment**, choose **Deploy from a branch**.
+3. Select the `main` branch and the `/(root)` folder, then click **Save**.
+
+Choose `main` because that is the branch containing the uploaded site files. Choose `/(root)` because `index.html` is at the top level of the repository.
+
+After GitHub Pages finishes publishing, the site will be available at:
+
+<https://yyuwei66-sketch.github.io/yuwei-portfolio/>
 
 ## Custom domain
 
-After registering a domain, add it under **Settings → Pages → Custom domain** and configure the DNS records with the domain registrar.
+After registering a domain, enter it under **Settings → Pages → Custom domain**, then configure the DNS records with your domain registrar.
